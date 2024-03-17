@@ -1,14 +1,9 @@
 import streamlit as st
 import openai
 import requests
-import os
-from dotenv import load_dotenv
 import json
 
-# Load environment variables
-load_dotenv()
-
-# Set OpenAI API key
+# Set OpenAI API key, in this case we store things in the streamlit environment variables. 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 def get_airbnb(location, checkin, checkout, adults):
@@ -24,10 +19,16 @@ def get_airbnb(location, checkin, checkout, adults):
     Returns:
     - A string containing the first result's URL.
     """
+
+    # Endpoint for API. 
     url = "https://airbnb13.p.rapidapi.com/search-location"
+    
+    # Query Strings for the API, based on user input. 
     querystring = {"location": location, "checkin": checkin, "checkout": checkout, "adults": adults}
+    
+    # Headers for the API call, need to set your own Access Key here. 
     headers = {
-        "X-RapidAPI-Key": os.getenv("X-RapidAPI-Key"),
+        "X-RapidAPI-Key": st.secrets["X-RapidAPI-Key"],
         "X-RapidAPI-Host": "airbnb13.p.rapidapi.com"
     }
 

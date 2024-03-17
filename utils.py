@@ -13,21 +13,6 @@ from dotenv import load_dotenv
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-def get_airbnb(location, checkin, checkout, adults):
-  url = "https://airbnb13.p.rapidapi.com/search-location"
-
-  querystring = {"location":location, "checkin":checkin,"checkout":checkout,"adults":adults}
-
-  headers = {
-    "X-RapidAPI-Key": os.environ.get("X-RapidAPI-Key"),
-    "X-RapidAPI-Host": "airbnb13.p.rapidapi.com"
-  }
-
-  response = requests.get(url, headers=headers, params=querystring)
-  print(response.json()['results'][0])
-  return response.json()['results'][0]['url']
-
-
 @st.cache_resource
 def load_chain():
     """
@@ -58,7 +43,7 @@ def load_chain():
 
     # Create system prompt
     template = """
-    You are an AI assistant for providing reccomendations on different airbnbs. 
+    You are an AI assistant for providing reccomendations on different airbnbs. You have access to the airbnb api, and you are suppose to answer questions based on user input. 
 
     {context}
     Question: {question}
